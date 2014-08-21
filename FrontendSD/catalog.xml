@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/home/baby/Dropbox/Sistemas%20Distribuidos/teste.wsdl" uri="xml-resources/web-service-references/teste/wsdl/teste.wsdl"/>
+    <system systemId="http://192.168.0.8:8080/teste/teste?xsd=1" uri="xml-resources/web-service-references/teste/wsdl/192.168.0.8_8080/teste/teste.xsd_1.xsd"/>
+    <system systemId="http://192.168.0.8:8080/ServerSD/Server?wsdl" uri="xml-resources/web-service-references/Server/wsdl/192.168.0.8_8080/ServerSD/Server.wsdl"/>
+    <system systemId="http://192.168.0.8:8080/ServerSD/Server?xsd=1" uri="xml-resources/web-service-references/Server/wsdl/192.168.0.8_8080/ServerSD/Server.xsd_1.xsd"/>
+</catalog>

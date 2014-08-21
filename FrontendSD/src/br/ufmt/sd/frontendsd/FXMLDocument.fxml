@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.cell.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufmt.sd.frontendsd.FXMLDocumentController">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Busca">
+               <content>
+                  <BorderPane fx:id="borderPaneBusca" prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <TextField id="txtBusca" fx:id="txtBusca" onAction="#handleButtonPesquisarAction" prefHeight="25.0" prefWidth="477.0" text="Digite o que busca" />
+                              <Button id="btnPesquisar" mnemonicParsing="false" onAction="#handleButtonPesquisarAction" text="Pesquisar" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </top>
+                     <center>
+                        <TableView id="tabelaBusca" fx:id="tableListaArquivos" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                              <TableColumn prefWidth="225.0" text="Nome do Arquivo">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="nomeArquivo" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn minWidth="0.0" prefWidth="94.0" text="Tamanho">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="tamanho" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="113.0" text="md5">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="md5Arquivo" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                          </columns>
+                        </TableView>
+                     </center>
+                     <bottom>
+                        <VBox fx:id="vBoxBottonBusca" spacing="10.0" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </bottom>
+                  </BorderPane>
+               </content>
+          </Tab>
+          <Tab text="Downloads">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <center>
+                        <TableView id="tabelaDownloads" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn prefWidth="207.0" text="Nome do Arquivo" />
+                            <TableColumn minWidth="0.0" prefWidth="87.0" text="Tamanho" />
+                              <TableColumn prefWidth="119.0" text="Baixados" />
+                              <TableColumn prefWidth="75.0" text="\%" />
+                          </columns>
+                        </TableView>
+                     </center>
+                     <top>
+                        <HBox spacing="10.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button id="btnPlay" mnemonicParsing="false" text="Play" />
+                              <Button id="btnPause" mnemonicParsing="false" text="Pause" />
+                              <Button id="btnStop" mnemonicParsing="false" text="Stop" />
+                              <Button id="btnDelete" mnemonicParsing="false" text="Delete" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </HBox>
+                     </top>
+                  </BorderPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
