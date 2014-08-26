@@ -10,6 +10,7 @@ package br.ufmt.sd.frontendsd.listeners;
  *
  * @author baby
  */
-public interface DownloadListener {
-    public void finished();
+public interface ItemDownloadListener {
+ 
+    public void updateTable();
 }

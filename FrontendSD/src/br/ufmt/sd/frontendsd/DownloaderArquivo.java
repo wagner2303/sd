@@ -5,6 +5,7 @@
  */
 package br.ufmt.sd.frontendsd;
 
+import br.ufmt.sd.frontendsd.listeners.DownloadListener;
 import br.ufmt.sd.frontendsd.listeners.ThreadListener;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
@@ -21,25 +22,25 @@ public class DownloaderArquivo implements Runnable, ThreadListener {
     private DescricaoArquivo descricaoArquivo;
     private String nomeOriginal;
     private ArrayList<ClienteD> clientesD;
-    private Float porcentagemConcluida;
+//    private Float porcentagemConcluida;
     private boolean[] partesConcluidas;
-    private boolean[] threadsIndisponiveis = new boolean[5];
     private Thread[] threads = new Thread[5];
+    private DownloadListener listener;
+    private int numThreads;
 
     public DownloaderArquivo() {
     }
 
-    public DownloaderArquivo(File arquivo, DescricaoArquivo descricaoArquivo, String nomeOriginal, ArrayList<ClienteD> clientesD) {
+    public DownloaderArquivo(File arquivo, DescricaoArquivo descricaoArquivo, String nomeOriginal, ArrayList<ClienteD> clientesD, DownloadListener listener) {
         this.arquivo = arquivo;
         this.descricaoArquivo = descricaoArquivo;
         this.nomeOriginal = nomeOriginal;
         this.clientesD = clientesD;
         this.partesConcluidas = new boolean[Long.valueOf(this.descricaoArquivo.getTamanho() / 1024 + 1).intValue()];
+        this.listener = listener;
+        this.numThreads = 0;
         for (int i = 0; i < partesConcluidas.length; i++) {
             partesConcluidas[i] = false;
-        }
-        for (int i = 0; i < threadsIndisponiveis.length; i++) {
-            threadsIndisponiveis[i] = false;            
         }
     }
 
@@ -79,13 +80,13 @@ public class DownloaderArquivo implements Runnable, ThreadListener {
         this.clientesD = clientesD;
     }
 
-    public Float getPorcentagemConcluida() {
-        return porcentagemConcluida;
-    }
+//    public Float getPorcentagemConcluida() {
+//        return porcentagemConcluida;
+//    }
 
-    public void setPorcentagemConcluida(Float porcentagemConcluida) {
-        this.porcentagemConcluida = porcentagemConcluida;
-    }
+//    public void setPorcentagemConcluida(Float porcentagemConcluida) {
+//        this.porcentagemConcluida = porcentagemConcluida;
+//    }
 
     private boolean hasPartes() {
         int i = 0;
@@ -115,40 +116,23 @@ public class DownloaderArquivo implements Runnable, ThreadListener {
         for (int index = 0; index < 5; index++) {
             threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
             threads[index].start();
-            threadsIndisponiveis[index] = true;
         }
-//        while (hasPartes()) {
-//            int index = getThreadIndex();
-//            while (index == -1) {
-//                index = getThreadIndex();
-//            }
-//            threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
-//            threads[index].start();
-//            threadsIndisponiveis[index] = true;
-//        }
-        System.out.println("Terminou!");
     }
 
     @Override
     public void notify(int index, int parte) {
         partesConcluidas[parte] = true;
-        threadsIndisponiveis[index] = false;
         if (hasPartes()) {
             threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
             threads[index].start();
-            threadsIndisponiveis[index] = true;
         }else{
             System.out.print(index + " ");
-        }
-    }
-
-    public int getThreadIndex() {
-        for (int i = 0; i < threadsIndisponiveis.length; i++) {
-            if (threadsIndisponiveis[i] == false) {
-                return i;
+            if(numThreads < 5){
+                numThreads = numThreads + 1;
+            }else{
+                listener.finished();
             }
         }
-        return -1;
     }
 
 }

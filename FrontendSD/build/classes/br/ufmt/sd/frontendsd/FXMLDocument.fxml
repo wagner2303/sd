@@ -77,16 +77,6 @@
                                                 <PropertyValueFactory property="tamanho" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn prefWidth="119.0" text="Baixados">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="baixados" />
-                                            </cellValueFactory>
-                                        </TableColumn>
-                                        <TableColumn prefWidth="75.0" text="\%">
-                                            <cellValueFactory>
-                                                <PropertyValueFactory property="porcentagem" />
-                                            </cellValueFactory>
-                                        </TableColumn>
                                         <TableColumn prefWidth="75.0" text="Status">
                                             <cellValueFactory>
                                                 <PropertyValueFactory property="status" />

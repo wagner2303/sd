@@ -7,6 +7,7 @@ package br.ufmt.sd.frontendsd.model;
 
 import br.ufmt.sd.frontendsd.DownloaderArquivo;
 import br.ufmt.sd.frontendsd.listeners.DownloadListener;
+import br.ufmt.sd.frontendsd.listeners.ItemDownloadListener;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
 import java.io.File;
@@ -19,19 +20,21 @@ import java.util.ArrayList;
 public class ItemDownload implements DownloadListener {
 
     private String nomeArquivo;
-    private Float tamanho;
-    private Float baixados;
-    private Float porcentagem;
+    private Long tamanho;
     private String status;
     private Thread downloader;
+    private ItemDownloadListener downloadListener;
 
-    public ItemDownload(File arquivo, DescricaoArquivo descricaoArquivo, String nomeOriginal, ArrayList<ClienteD> clientesD) {
+    public ItemDownload(File arquivo, 
+            DescricaoArquivo descricaoArquivo, 
+            String nomeOriginal, 
+            ArrayList<ClienteD> clientesD, 
+            ItemDownloadListener downloadListener) {
         nomeArquivo = arquivo.getName();
-        tamanho = descricaoArquivo.getTamanho() / 1024f;
-        baixados = 0.0f;
-        porcentagem = 0.0f;
-        status = "iniciando...";
-        downloader = new Thread(new DownloaderArquivo(arquivo, descricaoArquivo, nomeOriginal, clientesD));
+        tamanho = descricaoArquivo.getTamanho() / 1024;
+        this.downloadListener = downloadListener;
+        status = "Baixando";
+        downloader = new Thread(new DownloaderArquivo(arquivo, descricaoArquivo, nomeOriginal, clientesD, this));
     }
 
     public void start() {
@@ -42,16 +45,8 @@ public class ItemDownload implements DownloadListener {
         return nomeArquivo;
     }
 
-    public Float getTamanho() {
+    public Long getTamanho() {
         return tamanho;
-    }
-
-    public Float getBaixados() {
-        return baixados;
-    }
-
-    public Float getPorcentagem() {
-        return porcentagem;
     }
 
     public String getStatus() {
@@ -66,16 +61,8 @@ public class ItemDownload implements DownloadListener {
         this.nomeArquivo = nomeArquivo;
     }
 
-    public void setTamanho(Float tamanho) {
+    public void setTamanho(Long tamanho) {
         this.tamanho = tamanho;
-    }
-
-    public void setBaixados(Float baixados) {
-        this.baixados = baixados;
-    }
-
-    public void setPorcentagem(Float porcentagem) {
-        this.porcentagem = porcentagem;
     }
 
     public void setStatus(String status) {
@@ -84,19 +71,8 @@ public class ItemDownload implements DownloadListener {
 
     @Override
     public void finished() {
-        status = "Concluido";
-    }
-
-    @Override
-    public void finishedParte() {
-        status = "Baixando";
-        baixados += 1f;
-        //atualizaPorcentagem
-        porcentagem = (baixados / tamanho) * 100;
-        if (porcentagem > 100f) {
-            porcentagem = 100f;
-        } else {
-        }
+        setStatus("Concluido");
+        downloadListener.updateTable();
     }
 
 }

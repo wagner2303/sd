@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="FrontendSD.jar" size="47488" download="eager" />
+    <jar href="FrontendSD.jar" size="47982" download="eager" />
   </resources>
 <security>
   <all-permissions/>
