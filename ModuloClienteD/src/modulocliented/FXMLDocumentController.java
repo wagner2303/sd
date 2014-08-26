@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -13,7 +15,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
@@ -23,9 +24,9 @@ import modulocliented.sistemasdistribuidos.clienteD.ElementoTabela;
 import modulocliented.sistemasdistribuidos.clienteD.TabelaDeArquivos;
 
 public class FXMLDocumentController implements Initializable {
-
+    
     @FXML
-    private Button btnProcurar, btnPublicar;
+    private Button btnProcurar, btnPublicar, btnVerArquivos;
     @FXML
     private Label lblDescricaoArquivo;
     @FXML
@@ -33,9 +34,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private MenuItem mnuInformacoes, mnuSair;
     
-
     private File file;
-
+    private ArrayList<ElementoTabela> listaDeArquivosPublicados;
+    
     @FXML
     private void btnProcurarAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -46,7 +47,7 @@ public class FXMLDocumentController implements Initializable {
             btnPublicar.setDisable(false);
         }
     }
-
+    
     @FXML
     private void btnPublicarAction(ActionEvent event) {
         if (file != null) {
@@ -55,12 +56,13 @@ public class FXMLDocumentController implements Initializable {
             try {
                 String md5 = GeradorHash.geraHash(file);
                 TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
-                tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(TabelaDeArquivos.elementosTabela));
+                atualizarListaArquivos();
+                tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 Dialog.showErrorDialog(ex.getMessage());
             }
         }
@@ -68,7 +70,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void btnVerArquivosAction(ActionEvent event) {
-        tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(TabelaDeArquivos.elementosTabela));
+        atualizarListaArquivos();
+        tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
     }
     
     @FXML
@@ -81,21 +84,39 @@ public class FXMLDocumentController implements Initializable {
     private void mnuInformacoesAction(ActionEvent event) {
         Dialog.showInfoDialog("Criado por Sydy Technology Ltda.");
     }
-
+    
     @FXML
-    private void initialize() {
-        System.out.println("AQUI");
-        tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(TabelaDeArquivos.elementosTabela));
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    private void mnuRemoverAction(ActionEvent event) {
+        ElementoTabela elementoSelecionado = tblArquivos.getSelectionModel().getSelectedItem();
+        if (elementoSelecionado == null) {
+            Dialog.showErrorDialog("Clique primeiro num arquivo da lista, depois clique em Remover");
+        } else {
+            TabelaDeArquivos.removerArquivo(elementoSelecionado.getMd5Arquivo());
+            Dialog.showMessageDialog("Arquivo removido com sucesso!");
+            atualizarListaArquivos();
+            tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
+        }
     }
     
+    private void atualizarListaArquivos(){
+        Set<String> listaDeMd5 = TabelaDeArquivos.arquivos.keySet();
+        listaDeArquivosPublicados = new ArrayList<ElementoTabela>();
+        for(String chave : listaDeMd5){
+            File arquivo = TabelaDeArquivos.buscarArquivo(chave);
+            if(arquivo != null){
+                ElementoTabela arquivoPublicado = new ElementoTabela(arquivo.getName(), String.valueOf(arquivo.length()), chave);
+                listaDeArquivosPublicados.add(arquivoPublicado);
+            }
+        }
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        atualizarListaArquivos();
+    }
+
 //    @FXML
 //    private void Action(ActionEvent event) {
 //        
 //    }
-
 }

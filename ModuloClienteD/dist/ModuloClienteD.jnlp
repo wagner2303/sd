@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ModuloClienteD.jar" size="28014" download="eager" />
+    <jar href="ModuloClienteD.jar" size="28536" download="eager" />
   </resources>
 <security>
   <all-permissions/>
