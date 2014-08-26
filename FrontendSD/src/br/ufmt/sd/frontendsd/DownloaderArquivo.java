@@ -8,20 +8,13 @@ package br.ufmt.sd.frontendsd;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.RandomAccessFile;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author baby
  */
-public class DownloaderArquivo implements Runnable {
+public class DownloaderArquivo implements Runnable, ThreadListener {
 
     private File arquivo;
     private DescricaoArquivo descricaoArquivo;
@@ -29,6 +22,8 @@ public class DownloaderArquivo implements Runnable {
     private ArrayList<ClienteD> clientesD;
     private Float porcentagemConcluida;
     private boolean[] partesConcluidas;
+    private boolean[] threadsIndisponiveis = new boolean[5];
+    private Thread[] threads = new Thread[5];
 
     public DownloaderArquivo() {
     }
@@ -42,7 +37,9 @@ public class DownloaderArquivo implements Runnable {
         for (int i = 0; i < partesConcluidas.length; i++) {
             partesConcluidas[i] = false;
         }
-
+        for (int i = 0; i < threadsIndisponiveis.length; i++) {
+            threadsIndisponiveis[i] = false;            
+        }
     }
 
     public File getArquivo() {
@@ -111,48 +108,46 @@ public class DownloaderArquivo implements Runnable {
         return 0;
     }
 
-    public void writeToFile(String filePath, byte[] data, int position)
-            throws IOException {
-
-        RandomAccessFile file = new RandomAccessFile(filePath, "rwd");
-        file.seek(position);
-//        file.write(data, 0, quantidade);
-        file.write(data);
-        file.close();
-
-    }
-
     @Override
     public void run() {
         int conexoes = 0;
-        // TODO
-        Socket socket;
-        try {
-            socket = new Socket(getClientesD().get(0).getEndereco(), 5678);
-            PrintStream writer = new PrintStream(socket.getOutputStream());
-            InputStream reader = socket.getInputStream();
-            while (hasPartes()) {
-                // 192.168.0.5
-                writer.println(getDescricaoArquivo().getMd5Arquivo());
-                
-                int parte = getFirstPart();
-                writer.println(getFirstPart());
-                
-                System.out.print(parte + "\t");
-                byte[] buffer = new byte[1024];
-//                int bytes = 1024;
-//                if((parte + 1)* 1024 > descricaoArquivo.getTamanho()){
-//                    bytes = descricaoArquivo.getTamanho().intValue() - parte*1024;
-//                }
-                System.out.println(reader.read(buffer));
-                writeToFile(arquivo.getAbsolutePath(), buffer, parte * 1024);
-//                socket.close();
-                partesConcluidas[parte] = true;
-            }
-            socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(DownloaderArquivo.class.getName()).log(Level.SEVERE, null, ex);
+        for (int index = 0; index < 5; index++) {
+            threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
+            threads[index].start();
+            threadsIndisponiveis[index] = true;
         }
+//        while (hasPartes()) {
+//            int index = getThreadIndex();
+//            while (index == -1) {
+//                index = getThreadIndex();
+//            }
+//            threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
+//            threads[index].start();
+//            threadsIndisponiveis[index] = true;
+//        }
+        System.out.println("Terminou!");
+    }
+
+    @Override
+    public void notify(int index, int parte) {
+        partesConcluidas[parte] = true;
+        threadsIndisponiveis[index] = false;
+        if (hasPartes()) {
+            threads[index] = new Thread(new DownloaderParte(clientesD, getFirstPart(), arquivo, getDescricaoArquivo().getMd5Arquivo(), this, index));
+            threads[index].start();
+            threadsIndisponiveis[index] = true;
+        }else{
+            System.out.print(index + " ");
+        }
+    }
+
+    public int getThreadIndex() {
+        for (int i = 0; i < threadsIndisponiveis.length; i++) {
+            if (threadsIndisponiveis[i] == false) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 }
