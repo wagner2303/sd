@@ -5,6 +5,7 @@
  */
 package br.ufmt.sd.frontendsd;
 
+import br.ufmt.sd.frontendsd.listeners.ThreadListener;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
 import java.io.File;

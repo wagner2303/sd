@@ -5,6 +5,7 @@
  */
 package br.ufmt.sd.frontendsd;
 
+import br.ufmt.sd.frontendsd.model.ItemDownload;
 import br.ufmt.sd.frontendsd.model.ItemTabelaArquivos;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
@@ -36,7 +37,9 @@ public class FXMLDocumentController implements Initializable {
     private TextField txtBusca;
     @FXML
     private TableView tableListaArquivos;
-    private ArrayList<Thread> threads = new ArrayList<Thread>();
+    @FXML
+    private TableView tableListaDownload;
+    private ArrayList<ItemDownload> itensDownload = new ArrayList<ItemDownload>();
 
     @FXML
     protected void handleButtonPesquisarAction(ActionEvent event) {
@@ -84,13 +87,16 @@ public class FXMLDocumentController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             File file = fileChooser.showSaveDialog(null);
             if (file != null) {
-                threads.add(new Thread(new DownloaderArquivo(
-                        file,
-                        descricaoArquivo,
-                        item.getNomeArquivo(),
-                        clienteDs
-                )));
-                threads.get(threads.size() - 1).start();
+                ItemDownload itemDownload = new ItemDownload(file, descricaoArquivo, item.getNomeArquivo(), clienteDs);
+                itemDownload.start();
+                boolean add = itensDownload.add(itemDownload);
+                if (add) {
+                    final ObservableList<ItemDownload> observableList = FXCollections.observableArrayList(itensDownload);
+                    tableListaDownload.setItems(observableList);
+                }else{
+                    System.out.println("Erro: não adicionouo item à tabela");
+                }
+                
             }else{
                 System.out.println("Nenhum arquivo");
             }
@@ -103,8 +109,8 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 1; i < 20; i++) {
             ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
             DescricaoArquivo da = new DescricaoArquivo();
-            da.setTamanho(new Long(97323l));
-            da.setMd5Arquivo("ff2081b61b114cd356465823a6cb16d3");
+            da.setTamanho(new Long(3722l));
+            da.setMd5Arquivo("/home/baby/Dropbox/Documentos/6CC/APS/Exercicio1.sql");
             itemBuscaNome.setDescricaoArquivo(da);
             itemBuscaNome.setNomeArquivo("Paramore " + i);
 
@@ -113,7 +119,7 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 1; i < 20; i++) {
             ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
             DescricaoArquivo da = new DescricaoArquivo();
-            da.setTamanho(new Long(2639100l));
+            da.setTamanho(new Long(3722l));
             da.setMd5Arquivo("29a404dbcdb4ea326224ab6acee878de");
             itemBuscaNome.setDescricaoArquivo(da);
             itemBuscaNome.setNomeArquivo("Milque " + i);
@@ -130,7 +136,7 @@ public class FXMLDocumentController implements Initializable {
     private static java.util.List<br.ufmt.sd.serverws.ClienteD> getClientsD(br.ufmt.sd.serverws.DescricaoArquivo descricao) {
         List<ClienteD> clienteDs = new ArrayList<>();
         ClienteD clienteD = new ClienteD();
-        clienteD.setEndereco("192.168.2.9");
+        clienteD.setEndereco("127.0.0.1");
         clienteD.setVelocidadeConexao(Float.parseFloat("10000"));
 
         clienteDs.add(clienteD);
