@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import modulocliented.sistemasdistribuidos.ServidorSocket;
 
 public class ModuloClienteD extends Application {
 
@@ -32,9 +31,6 @@ public class ModuloClienteD extends Application {
             }
         });
         
-        
-        Thread thread = new Thread(new ServidorSocket());
-        thread.start();
 
     }
 

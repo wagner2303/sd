@@ -2,14 +2,15 @@ package modulocliented.sistemasdistribuidos;
 
 import java.io.File;
 import java.net.InetAddress;
-import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modulocliented.sistemasdistribuidos.clienteD.ClienteD;
-import modulocliented.sistemasdistribuidos.clienteD.ClienteDController;
 import modulocliented.sistemasdistribuidos.clienteD.TabelaDeArquivos;
 
 public class ServidorSocket implements Runnable{
+    
 
     @Override
     public void run() {
@@ -37,12 +38,12 @@ public class ServidorSocket implements Runnable{
             ClienteD novoCliente;
 
             novoCliente = new ClienteD(InetAddress.getLocalHost().getHostAddress(), 10f);
-            ClienteDController ctlCliente = new ClienteDController(novoCliente);
-            Socket socket = ctlCliente.abrirConexao();
+            ExecutorService pool = Executors.newFixedThreadPool(20);
             
-            while(true){
-                Thread tc = new Thread(new ClienteSocket(novoCliente));
-                tc.start();
+            while(true){    
+                pool.execute(new ClienteSocket(novoCliente));
+//                Thread tc = new Thread(new ClienteSocket(novoCliente));
+//                tc.start();
             }
             
         } catch (Exception ex) {

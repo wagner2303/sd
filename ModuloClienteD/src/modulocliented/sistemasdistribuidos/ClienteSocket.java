@@ -15,38 +15,27 @@ public class ClienteSocket implements Runnable {
         try {
             ClienteDController ctlCliente = new ClienteDController(novoCliente);
             Socket socket = ctlCliente.abrirConexao();
+            System.out.println("Enviando parte para "+socket.getInetAddress().getHostAddress());
+            
+            Scanner entrada = new Scanner(socket.getInputStream());
 
-            System.out.println("CONEXÃO ABERTA!");
-
-            while (true) {
-                Scanner entrada = new Scanner(socket.getInputStream());
-
-                if (entrada.hasNextLine()) {
-                    String md5Arquivo = entrada.nextLine();
-                    System.out.println("Obtive esse md5: " + md5Arquivo);
-                    File arquivo = TabelaDeArquivos.buscarArquivo(md5Arquivo);
-                    if (arquivo != null) {
-                        System.out.println("Tenho o arquivo: " + arquivo.getPath());
-                        if (entrada.hasNextLine()) {
-                            int parte = Integer.valueOf(entrada.nextLine());
-                            System.out.println("Vou enviar a parte " + parte);
-                            ctlCliente.enviarParte(arquivo, socket, parte * 1024);
-                            System.out.println("PARTE ENVIADA!!!!\n\n");
-                        } else {
-                            System.out.println("DEU ERRO 2");
-                            entrada.close();
-                        }
+            if (entrada.hasNextLine()) {
+                String md5Arquivo = entrada.nextLine();
+                File arquivo = TabelaDeArquivos.buscarArquivo(md5Arquivo);
+                if (arquivo != null) {
+                    if (entrada.hasNextLine()) {
+                        int parte = Integer.valueOf(entrada.nextLine());
+                        ctlCliente.enviarParte(arquivo, socket, parte * 1024);
                     } else {
-                        System.out.println("NÃO TENHO O ARQUIVO");
                         entrada.close();
                     }
                 } else {
-                    System.out.println("Fim da conexao \n\n");
                     entrada.close();
-                    socket = ctlCliente.abrirConexao();
-                    System.out.println("CONEXÃO ABERTA!");
                 }
+            } else {
+                entrada.close();
             }
+            System.out.println("Parte enviada!");
         } catch (Exception ex) {
             Logger.getLogger(ServidorSocket.class.getName()).log(Level.SEVERE, null, ex);
         }

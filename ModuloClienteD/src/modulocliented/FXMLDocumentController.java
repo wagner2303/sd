@@ -18,8 +18,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import modulocliented.sistemasdistribuidos.GeradorHash;
+import modulocliented.sistemasdistribuidos.ServidorSocket;
 import modulocliented.sistemasdistribuidos.clienteD.ElementoTabela;
 import modulocliented.sistemasdistribuidos.clienteD.TabelaDeArquivos;
 
@@ -28,7 +31,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button btnProcurar, btnPublicar, btnVerArquivos;
     @FXML
-    private Label lblDescricaoArquivo;
+    private Label lblInfoArquivo, lblQtdeEnvios;
     @FXML
     private TableView<ElementoTabela> tblArquivos;
     @FXML
@@ -39,11 +42,13 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void btnProcurarAction(ActionEvent event) {
+        lblInfoArquivo.setText("");
         FileChooser fileChooser = new FileChooser();
         file = fileChooser.showOpenDialog(null);
         if (file != null) {
-            lblDescricaoArquivo.setText("");
-            lblDescricaoArquivo.setText(file.getAbsolutePath());
+            lblInfoArquivo.setTextFill(Color.BLACK);
+            lblInfoArquivo.setText("");
+            lblInfoArquivo.setText(file.getAbsolutePath());
             btnPublicar.setDisable(false);
         }
     }
@@ -51,10 +56,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void btnPublicarAction(ActionEvent event) {
         if (file != null) {
-            btnPublicar.setDisable(true);
-            lblDescricaoArquivo.setText("Procurar Arquivo");
             try {
+                btnPublicar.setDisable(true);
                 String md5 = GeradorHash.geraHash(file);
+                //publicar arquivo no servidor
+                lblInfoArquivo.setTextFill(Color.GREEN);
+                lblInfoArquivo.setText("Arquivo \""+file.getName()+"\" publicado! ");
                 TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
                 atualizarListaArquivos();
                 tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
@@ -70,6 +77,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void btnVerArquivosAction(ActionEvent event) {
+        lblInfoArquivo.setTextFill(Color.BLACK);
+        lblInfoArquivo.setText("");
         atualizarListaArquivos();
         tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
     }
@@ -113,10 +122,13 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         atualizarListaArquivos();
+        Thread thread = new Thread(new ServidorSocket());
+        thread.start();
     }
 
 //    @FXML
 //    private void Action(ActionEvent event) {
 //        
 //    }
+
 }
