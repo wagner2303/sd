@@ -1,11 +1,14 @@
 package modulocliented.sistemasdistribuidos.clienteD;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class TabelaDeArquivos {
+public class TabelaDeArquivos implements Serializable {
+    
+    private static final long serialVersionUID = -3755315730382263996L;
 
-    public static HashMap<String, File> arquivos;
+    public static HashMap<String, File> arquivos = new HashMap<>();
 
     public static File buscarArquivo(String md5Arquivo) {
         return arquivos.get(md5Arquivo);
@@ -23,7 +26,4 @@ public class TabelaDeArquivos {
         }
     }
 
-    static {
-        arquivos = new HashMap<>();
-    }
 }

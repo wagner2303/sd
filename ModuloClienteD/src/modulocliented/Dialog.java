@@ -39,7 +39,7 @@ public abstract class Dialog {
                 spacing(10).build()));
         dialogStage.show();
     }
-    
+
     public static void showErrorDialog(String msg) {
         final Stage dialogStage = new Stage(StageStyle.UTILITY);
 
@@ -62,8 +62,8 @@ public abstract class Dialog {
                 spacing(10).build()));
         dialogStage.show();
     }
-    
-    public static void showInfoDialog(String msg) {
+
+    public static void showInfoDialog() {
         final Stage dialogStage = new Stage(StageStyle.UTILITY);
 
         dialogStage.setTitle("Informações!");
@@ -74,9 +74,13 @@ public abstract class Dialog {
                 dialogStage.close();
             }
         });
-       
+
         dialogStage.setScene(new Scene(VBoxBuilder.create().
-                children(new Text(msg),
+                children(HBoxBuilder.create().
+                        children(new ImageView(new Image("sydylogo2.png")), new Text("Criado por Sydy Technology Ltda.")).
+                        spacing(10).
+                        alignment(Pos.CENTER).
+                        padding(new Insets(10)).build(),
                         HBoxBuilder.create().
                         children(btnOK).
                         spacing(10).
