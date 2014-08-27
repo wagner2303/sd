@@ -22,10 +22,13 @@ public class ModuloClienteD extends Application {
         stage.show();
         stage.setTitle("Módulo para enviar arquivos");
         stage.getIcons().add(new Image("sydylogo.png"));
+        
+        FXMLDocumentController.carregarArquivos();
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
+                FXMLDocumentController.salvarArquivos();
                 Platform.exit();
                 System.exit(0);
             }

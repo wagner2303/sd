@@ -1,31 +1,26 @@
 package modulocliented.sistemasdistribuidos.clienteD;
 
-public class ElementoTabela {
+import java.io.File;
+import java.io.Serializable;
 
-    private String nomeArquivo;
-    private String tamanhoArquivo;
+public class ElementoTabela implements Serializable{
+    
+    private static final long serialVersionUID = -4199321605429811402L;
+
+    private File arquivo;
     private String md5Arquivo;
 
-    public ElementoTabela(String nomeArquivo, String tamanhoArquivo, String md5Arquivo) {
-        this.nomeArquivo = nomeArquivo;
-        this.tamanhoArquivo = tamanhoArquivo;
+    public ElementoTabela(File arquivo, String md5Arquivo) {
+        this.arquivo = arquivo;
         this.md5Arquivo = md5Arquivo;
     }
 
     public String getNomeArquivo() {
-        return nomeArquivo;
-    }
-
-    public void setNomeArquivo(String nomeArquivo) {
-        this.nomeArquivo = nomeArquivo;
+        return arquivo.getName();
     }
 
     public String getTamanhoArquivo() {
-        return tamanhoArquivo;
-    }
-
-    public void setTamanhoArquivo(String tamanhoArquivo) {
-        this.tamanhoArquivo = tamanhoArquivo;
+        return String.valueOf(arquivo.length());
     }
 
     public String getMd5Arquivo() {
@@ -34,6 +29,14 @@ public class ElementoTabela {
 
     public void setMd5Arquivo(String md5Arquivo) {
         this.md5Arquivo = md5Arquivo;
+    }
+
+    public File getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(File arquivo) {
+        this.arquivo = arquivo;
     }
 
 }

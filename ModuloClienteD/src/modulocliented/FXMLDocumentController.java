@@ -1,8 +1,14 @@
 package modulocliented;
 
 import com.sun.javafx.collections.ObservableListWrapper;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -103,6 +109,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void mnuSairAction(ActionEvent event) throws Throwable {
+        salvarArquivos();
         Platform.exit();
         System.exit(0);
     }
@@ -131,7 +138,7 @@ public class FXMLDocumentController implements Initializable {
         for (String chave : listaDeMd5) {
             File arquivo = TabelaDeArquivos.buscarArquivo(chave);
             if (arquivo != null) {
-                ElementoTabela arquivoPublicado = new ElementoTabela(arquivo.getName(), String.valueOf(arquivo.length()), chave);
+                ElementoTabela arquivoPublicado = new ElementoTabela(arquivo, chave);
                 listaDeArquivosPublicados.add(arquivoPublicado);
             }
         }
@@ -144,9 +151,68 @@ public class FXMLDocumentController implements Initializable {
         thread.start();
     }
 
+    public static void salvarArquivos() {
+        FileOutputStream manipulador = null;
+        ObjectOutputStream objetoManipulador = null;
+        try {
+            File arquivoGravacao = new File("arquivos.cad");
+            manipulador = new FileOutputStream(arquivoGravacao);
+            objetoManipulador = new ObjectOutputStream(manipulador);
+
+            Set<String> listaDeMd5 = TabelaDeArquivos.arquivos.keySet();
+            File arquivo;
+            ElementoTabela arquivoPublicado;
+
+            for (String chave : listaDeMd5) {
+                arquivo = TabelaDeArquivos.buscarArquivo(chave);
+                if (arquivo != null) {
+                    arquivoPublicado = new ElementoTabela(arquivo, chave);
+                    objetoManipulador.writeObject(arquivoPublicado);
+                }
+            }
+
+            TabelaDeArquivos.arquivos.clear();
+            objetoManipulador.close();
+            manipulador.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void carregarArquivos() {
+        FileInputStream manipulador = null;
+        ObjectInputStream objetoManipulador = null;
+        try {
+            File clienteCAD = new File("arquivos.cad");
+            manipulador = new FileInputStream(clienteCAD);
+            objetoManipulador = new ObjectInputStream(manipulador);
+            ElementoTabela elemento;
+            while (true) {
+                try {
+                    elemento = (ElementoTabela) objetoManipulador.readObject();
+                    TabelaDeArquivos.salvarNovoArquivoNaTabela(elemento.getMd5Arquivo(), elemento.getArquivo());
+                } catch (EOFException e) {
+                    break;
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            objetoManipulador.close();
+            manipulador.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+
 //    @FXML
 //    private void Action(ActionEvent event) {
 //        
 //    }
-
 }
