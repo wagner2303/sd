@@ -8,6 +8,7 @@ package br.ufmt.sd.frontendsd.model;
 import br.ufmt.sd.frontendsd.DownloaderArquivo;
 import br.ufmt.sd.frontendsd.listeners.DownloadListener;
 import br.ufmt.sd.frontendsd.listeners.ItemDownloadListener;
+import br.ufmt.sd.frontendsd.model.enums.StatusDownload;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
 import java.io.File;
@@ -21,7 +22,7 @@ public class ItemDownload implements DownloadListener {
 
     private String nomeArquivo;
     private Long tamanho;
-    private String status;
+    private StatusDownload status;
     private Thread downloader;
     private ItemDownloadListener downloadListener;
 
@@ -33,7 +34,7 @@ public class ItemDownload implements DownloadListener {
         nomeArquivo = arquivo.getName();
         tamanho = descricaoArquivo.getTamanho() / 1024;
         this.downloadListener = downloadListener;
-        status = "Baixando";
+//        status = StatusDownload.Baixando;
         downloader = new Thread(new DownloaderArquivo(arquivo, descricaoArquivo, nomeOriginal, clientesD, this));
     }
 
@@ -49,7 +50,7 @@ public class ItemDownload implements DownloadListener {
         return tamanho;
     }
 
-    public String getStatus() {
+    public StatusDownload getStatus() {
         return status;
     }
 
@@ -65,13 +66,13 @@ public class ItemDownload implements DownloadListener {
         this.tamanho = tamanho;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusDownload status) {
         this.status = status;
     }
 
     @Override
     public void finished() {
-        setStatus("Concluido");
+        setStatus(StatusDownload.Concluído);
         downloadListener.updateTable();
     }
 

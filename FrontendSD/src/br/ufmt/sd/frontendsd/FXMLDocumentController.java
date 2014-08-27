@@ -40,7 +40,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
     private TableView tableListaArquivos;
     @FXML
     private TableView tableListaDownload;
-    private ArrayList<ItemDownload> itensDownload = new ArrayList<ItemDownload>();
+    private ArrayList<ItemDownload> itensDownload = new ArrayList<>();
 
     @FXML
     protected void handleButtonPesquisarAction(ActionEvent event) {
@@ -114,7 +114,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
             da.setTamanho(new Long(113427l));
             da.setMd5Arquivo("5c4de510acea159667f4fdac9ad5838b");
             itemBuscaNome.setDescricaoArquivo(da);
-            itemBuscaNome.setNomeArquivo("Paramore " + i);
+            itemBuscaNome.setNome("Paramore " + i);
 
             itensBuscaNomes.add(itemBuscaNome);
         }
@@ -124,7 +124,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
             da.setTamanho(new Long(2639100l));
             da.setMd5Arquivo("29a404dbcdb4ea326224ab6acee878de");
             itemBuscaNome.setDescricaoArquivo(da);
-            itemBuscaNome.setNomeArquivo("Milque " + i);
+            itemBuscaNome.setNome("Milque " + i);
 
             itensBuscaNomes.add(itemBuscaNome);
         }
@@ -139,7 +139,6 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
         List<ClienteD> clienteDs = new ArrayList<>();
         ClienteD clienteD = new ClienteD();
         clienteD.setEndereco("192.168.2.9");
-        clienteD.setVelocidadeConexao(10000f);
 
         clienteDs.add(clienteD);
         return clienteDs;
@@ -150,7 +149,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
 
     @Override
     public void updateTable() {
-        final ObservableList<ItemDownload> observableList = FXCollections.observableArrayList(itensDownload);
+        ObservableList<ItemDownload> observableList = FXCollections.observableArrayList(itensDownload);
         tableListaDownload.getItems().clear();
         tableListaDownload.setItems(observableList);
     }

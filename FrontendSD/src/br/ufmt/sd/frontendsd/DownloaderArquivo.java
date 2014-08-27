@@ -58,7 +58,7 @@ public class DownloaderArquivo implements Runnable, ThreadListener {
 
     public void setDescricaoArquivo(DescricaoArquivo descricaoArquivo) {
         this.descricaoArquivo = descricaoArquivo;
-        this.partesConcluidas = new boolean[getDescricaoArquivo().getTamanho().intValue()];
+//        this.partesConcluidas = new boolean[getDescricaoArquivo().getTamanho().intValue()];
         for (int i = 0; i < partesConcluidas.length; i++) {
             partesConcluidas[i] = false;
         }

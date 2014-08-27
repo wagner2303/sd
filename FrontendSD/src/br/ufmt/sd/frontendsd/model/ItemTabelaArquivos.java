@@ -18,7 +18,7 @@ public class ItemTabelaArquivos {
     private String md5Arquivo;
 
     public ItemTabelaArquivos(ItemBuscaNome itemBuscaNome){
-        this.nomeArquivo = itemBuscaNome.getNomeArquivo();
+        this.nomeArquivo = itemBuscaNome.getNome();
         this.tamanho = itemBuscaNome.getDescricaoArquivo().getTamanho();
         this.md5Arquivo = itemBuscaNome.getDescricaoArquivo().getMd5Arquivo();
     }

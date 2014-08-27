@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Metro/2.3 (tags/2.3-7528; 2013-04-29T19:34:10+0000) JAXWS-RI/2.2.8 JAXWS/2.2 svn-revision#unknown. --><xs:schema xmlns:tns="http://server.sd.ufmt.br/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://server.sd.ufmt.br/">
+
+<xs:element name="buscaArquivo" type="tns:buscaArquivo"/>
+
+<xs:element name="buscaArquivoResponse" type="tns:buscaArquivoResponse"/>
+
+<xs:element name="getListaClienteD" type="tns:getListaClienteD"/>
+
+<xs:element name="getListaClienteDResponse" type="tns:getListaClienteDResponse"/>
+
+<xs:element name="publicaArquivo" type="tns:publicaArquivo"/>
+
+<xs:element name="publicaArquivoResponse" type="tns:publicaArquivoResponse"/>
+
+<xs:element name="removeArquivo" type="tns:removeArquivo"/>
+
+<xs:element name="removeArquivoResponse" type="tns:removeArquivoResponse"/>
+
+<xs:complexType name="publicaArquivo">
+<xs:sequence>
+<xs:element name="arquivo" type="tns:ItemBuscaNome" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ItemBuscaNome">
+<xs:sequence>
+<xs:element name="nome" type="xs:string" minOccurs="0"/>
+<xs:element name="DescricaoArquivo" type="tns:DescricaoArquivo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="DescricaoArquivo">
+<xs:sequence>
+<xs:element name="md5Arquivo" type="xs:string" minOccurs="0"/>
+<xs:element name="tamanho" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="publicaArquivoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getListaClienteD">
+<xs:sequence>
+<xs:element name="descricaoArquivo" type="tns:DescricaoArquivo" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getListaClienteDResponse">
+<xs:sequence>
+<xs:element name="ClienteD" type="tns:ClienteD" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="ClienteD">
+<xs:sequence>
+<xs:element name="endereco" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscaArquivo">
+<xs:sequence>
+<xs:element name="termo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscaArquivoResponse">
+<xs:sequence>
+<xs:element name="ItemBuscaName" type="tns:ItemBuscaNome" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeArquivo">
+<xs:sequence>
+<xs:element name="arquivo" type="tns:DescricaoArquivo" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="removeArquivoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
