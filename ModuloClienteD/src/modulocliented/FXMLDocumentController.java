@@ -27,6 +27,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import modulocliented.sistemasdistribuidos.GeradorHash;
+import modulocliented.sistemasdistribuidos.Server.DescricaoArquivo;
+import modulocliented.sistemasdistribuidos.Server.ItemBuscaNome;
 import modulocliented.sistemasdistribuidos.ServidorSocket;
 import modulocliented.sistemasdistribuidos.clienteD.ElementoTabela;
 import modulocliented.sistemasdistribuidos.clienteD.TabelaDeArquivos;
@@ -66,28 +68,28 @@ public class FXMLDocumentController implements Initializable {
                 lblInfoArquivo.setText("Aguarde...");
                 String md5 = GeradorHash.geraHash(file);
 
-//                DescricaoArquivo descricao = new DescricaoArquivo();
-//                descricao.setMd5Arquivo(md5);
-//                descricao.setTamanho(file.length());
-//
-//                ItemBuscaNome item = new ItemBuscaNome();
-//                item.setDescricaoArquivo(descricao);
-//                item.setNome(file.getName());
-//                
-//                if (publicaArquivo(item, md5)) {
-//                    lblInfoArquivo.setTextFill(Color.GREEN);
-//                    lblInfoArquivo.setText("Arquivo \"" + file.getName() + "\" publicado! ");
-//                    TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
-//                    atualizarListaArquivos();
-//                    tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
-//                } else {
-//                    lblInfoArquivo.setText("Não foi possível publicar o arquivo \"" + file.getName() + "\"!");
-//                }
-                lblInfoArquivo.setTextFill(Color.GREEN);
-                lblInfoArquivo.setText("Arquivo \"" + file.getName() + "\" publicado! ");
-                TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
-                atualizarListaArquivos();
-                tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
+                DescricaoArquivo descricao = new DescricaoArquivo();
+                descricao.setMd5Arquivo(md5);
+                descricao.setTamanho(file.length());
+
+                ItemBuscaNome item = new ItemBuscaNome();
+                item.setDescricaoArquivo(descricao);
+                item.setNome(file.getName());
+                
+                if (publicaArquivo(item)) {
+                    lblInfoArquivo.setTextFill(Color.GREEN);
+                    lblInfoArquivo.setText("Arquivo \"" + file.getName() + "\" publicado! ");
+                    TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
+                    atualizarListaArquivos();
+                    tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
+                } else {
+                    lblInfoArquivo.setText("Não foi possível publicar o arquivo \"" + file.getName() + "\"!");
+                }
+//                lblInfoArquivo.setTextFill(Color.GREEN);
+//                lblInfoArquivo.setText("Arquivo \"" + file.getName() + "\" publicado! ");
+//                TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, file);
+//                atualizarListaArquivos();
+//                tblArquivos.setItems(new ObservableListWrapper<ElementoTabela>(listaDeArquivosPublicados));
 
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
@@ -215,4 +217,10 @@ public class FXMLDocumentController implements Initializable {
 //    private void Action(ActionEvent event) {
 //        
 //    }
+
+    private static boolean publicaArquivo(modulocliented.sistemasdistribuidos.Server.ItemBuscaNome arquivo) {
+        modulocliented.sistemasdistribuidos.Server.ServerSD service = new modulocliented.sistemasdistribuidos.Server.ServerSD();
+        modulocliented.sistemasdistribuidos.Server.ServerSDSoap port = service.getServerSDSoap();
+        return port.publicaArquivo(arquivo);
+    }
 }

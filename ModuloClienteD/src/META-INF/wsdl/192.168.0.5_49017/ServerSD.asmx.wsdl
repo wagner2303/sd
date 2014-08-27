@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://server.sd.ufmt.br/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://server.sd.ufmt.br/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://server.sd.ufmt.br/">
+      <s:element name="BuscaArquivo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="termo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaArquivoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaArquivoResult" type="tns:ArrayOfItemBuscaNome" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfItemBuscaNome">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ItemBuscaNome" nillable="true" type="tns:ItemBuscaNome" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ItemBuscaNome">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="nome" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DescricaoArquivo" type="tns:DescricaoArquivo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DescricaoArquivo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="md5Arquivo" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="tamanho" type="s:long" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="getClientesD">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="descricao" type="tns:DescricaoArquivo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getClientesDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getClientesDResult" type="tns:ArrayOfClienteD" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfClienteD">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ClienteD" nillable="true" type="tns:ClienteD" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ClienteD">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="endereco" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="publicaArquivo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="arquivo" type="tns:ItemBuscaNome" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="publicaArquivoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="publicaArquivoResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BuscaArquivoSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaArquivo" />
+  </wsdl:message>
+  <wsdl:message name="BuscaArquivoSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaArquivoResponse" />
+  </wsdl:message>
+  <wsdl:message name="getClientesDSoapIn">
+    <wsdl:part name="parameters" element="tns:getClientesD" />
+  </wsdl:message>
+  <wsdl:message name="getClientesDSoapOut">
+    <wsdl:part name="parameters" element="tns:getClientesDResponse" />
+  </wsdl:message>
+  <wsdl:message name="publicaArquivoSoapIn">
+    <wsdl:part name="parameters" element="tns:publicaArquivo" />
+  </wsdl:message>
+  <wsdl:message name="publicaArquivoSoapOut">
+    <wsdl:part name="parameters" element="tns:publicaArquivoResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServerSDSoap">
+    <wsdl:operation name="BuscaArquivo">
+      <wsdl:input message="tns:BuscaArquivoSoapIn" />
+      <wsdl:output message="tns:BuscaArquivoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="getClientesD">
+      <wsdl:input message="tns:getClientesDSoapIn" />
+      <wsdl:output message="tns:getClientesDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="publicaArquivo">
+      <wsdl:input message="tns:publicaArquivoSoapIn" />
+      <wsdl:output message="tns:publicaArquivoSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServerSDSoap" type="tns:ServerSDSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaArquivo">
+      <soap:operation soapAction="http://server.sd.ufmt.br/BuscaArquivo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClientesD">
+      <soap:operation soapAction="http://server.sd.ufmt.br/getClientesD" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="publicaArquivo">
+      <soap:operation soapAction="http://server.sd.ufmt.br/publicaArquivo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServerSDSoap12" type="tns:ServerSDSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuscaArquivo">
+      <soap12:operation soapAction="http://server.sd.ufmt.br/BuscaArquivo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClientesD">
+      <soap12:operation soapAction="http://server.sd.ufmt.br/getClientesD" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="publicaArquivo">
+      <soap12:operation soapAction="http://server.sd.ufmt.br/publicaArquivo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServerSD">
+    <wsdl:port name="ServerSDSoap" binding="tns:ServerSDSoap">
+      <soap:address location="http://192.168.0.5:49017/ServerSD.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServerSDSoap12" binding="tns:ServerSDSoap12">
+      <soap12:address location="http://192.168.0.5:49017/ServerSD.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

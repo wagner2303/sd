@@ -15,7 +15,6 @@ public class ClienteSocket implements Runnable {
         try {
             ClienteDController ctlCliente = new ClienteDController(novoCliente);
             Socket socket = ctlCliente.abrirConexao();
-            System.out.println("Enviando parte para "+socket.getInetAddress().getHostAddress());
             
             Scanner entrada = new Scanner(socket.getInputStream());
 
@@ -35,7 +34,6 @@ public class ClienteSocket implements Runnable {
             } else {
                 entrada.close();
             }
-            System.out.println("Parte enviada!");
         } catch (Exception ex) {
             Logger.getLogger(ServidorSocket.class.getName()).log(Level.SEVERE, null, ex);
         }
