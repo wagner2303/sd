@@ -2,9 +2,9 @@
 <jax-ws xmlns="http://www.netbeans.org/ns/jax-ws/1">
   <services/>
   <clients>
-    <client name="server">
-      <wsdl-url>file:/home/baby/Área%20de%20Trabalho/server.wsdl</wsdl-url>
-      <local-wsdl-file>server.wsdl</local-wsdl-file>
+    <client name="ServerSD">
+      <wsdl-url>http://192.168.0.5:49017/ServerSD.asmx?WSDL</wsdl-url>
+      <local-wsdl-file>192.168.0.5_49017/ServerSD.asmx.wsdl</local-wsdl-file>
       <package-name forceReplace="true">br.ufmt.sd.serverws</package-name>
       <catalog-file>catalog.xml</catalog-file>
       <wsimport-options>
@@ -22,7 +22,7 @@
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>wsdlLocation</wsimport-option-name>
-          <wsimport-option-value>file:/home/baby/Área%20de%20Trabalho/server.wsdl</wsimport-option-value>
+          <wsimport-option-value>http://192.168.0.5:49017/ServerSD.asmx?WSDL</wsimport-option-value>
         </wsimport-option>
         <wsimport-option>
           <wsimport-option-name>xnocompile</wsimport-option-name>

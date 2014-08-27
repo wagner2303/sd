@@ -16,22 +16,22 @@
             <classpath path="${libs.jaxws21.classpath}"/>
         </taskdef>
     </target>
-    <target name="wsimport-client-server" depends="wsimport-init">
-        <mkdir dir="${build.generated.dir}/jax-wsCache/server"/>
-        <property name="wsdl-server" location="xml-resources/web-service-references/server/wsdl/server.wsdl"/>
-        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/server" destdir="${build.generated.dir}/jax-wsCache/server" wsdl="${wsdl-server}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="file:/home/baby/Área%20de%20Trabalho/server.wsdl" xnocompile="true" xendorsed="true" package="br.ufmt.sd.serverws">
-            <depends file="${wsdl-server}"/>
-            <produces dir="${build.generated.dir}/jax-wsCache/server"/>
+    <target name="wsimport-client-ServerSD" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/ServerSD"/>
+        <property name="wsdl-ServerSD" location="xml-resources/web-service-references/ServerSD/wsdl/192.168.0.5_49017/ServerSD.asmx.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/ServerSD" destdir="${build.generated.dir}/jax-wsCache/ServerSD" wsdl="${wsdl-ServerSD}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://192.168.0.5:49017/ServerSD.asmx?WSDL" xnocompile="true" xendorsed="true" package="br.ufmt.sd.serverws">
+            <depends file="${wsdl-ServerSD}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/ServerSD"/>
         </wsimport>
         <copy todir="${build.generated.sources.dir}/jax-ws">
-            <fileset dir="${build.generated.dir}/jax-wsCache/server">
+            <fileset dir="${build.generated.dir}/jax-wsCache/ServerSD">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
     </target>
-    <target name="wsimport-client-clean-server" depends="-init-project">
-        <delete dir="${build.generated.dir}/jax-wsCache/server"/>
+    <target name="wsimport-client-clean-ServerSD" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/ServerSD"/>
         <delete dir="${build.generated.sources.dir}/jax-ws/br/ufmt/sd/serverws"/>
     </target>
-    <target name="wsimport-client-generate" depends="wsimport-client-server"/>
+    <target name="wsimport-client-generate" depends="wsimport-client-ServerSD"/>
 </project>

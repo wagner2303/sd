@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arquivo" type="{http://server.sd.ufmt.br/}ItemBuscaNome" minOccurs="0"/>
+ *         &lt;element name="getClientesDResult" type="{http://server.sd.ufmt.br/}ArrayOfClienteD" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -28,35 +28,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "arquivo"
+    "getClientesDResult"
 })
-@XmlRootElement(name = "publicaArquivo")
-public class PublicaArquivo {
+@XmlRootElement(name = "getClientesDResponse")
+public class GetClientesDResponse {
 
-    protected ItemBuscaNome arquivo;
+    protected ArrayOfClienteD getClientesDResult;
 
     /**
-     * Obtém o valor da propriedade arquivo.
+     * Obtém o valor da propriedade getClientesDResult.
      * 
      * @return
      *     possible object is
-     *     {@link ItemBuscaNome }
+     *     {@link ArrayOfClienteD }
      *     
      */
-    public ItemBuscaNome getArquivo() {
-        return arquivo;
+    public ArrayOfClienteD getGetClientesDResult() {
+        return getClientesDResult;
     }
 
     /**
-     * Define o valor da propriedade arquivo.
+     * Define o valor da propriedade getClientesDResult.
      * 
      * @param value
      *     allowed object is
-     *     {@link ItemBuscaNome }
+     *     {@link ArrayOfClienteD }
      *     
      */
-    public void setArquivo(ItemBuscaNome value) {
-        this.arquivo = value;
+    public void setGetClientesDResult(ArrayOfClienteD value) {
+        this.getClientesDResult = value;
     }
 
 }

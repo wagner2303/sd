@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arquivo" type="{http://server.sd.ufmt.br/}ItemBuscaNome" minOccurs="0"/>
+ *         &lt;element name="descricao" type="{http://server.sd.ufmt.br/}DescricaoArquivo" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -28,35 +28,35 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "arquivo"
+    "descricao"
 })
-@XmlRootElement(name = "publicaArquivo")
-public class PublicaArquivo {
+@XmlRootElement(name = "getClientesD")
+public class GetClientesD {
 
-    protected ItemBuscaNome arquivo;
+    protected DescricaoArquivo descricao;
 
     /**
-     * Obtém o valor da propriedade arquivo.
+     * Obtém o valor da propriedade descricao.
      * 
      * @return
      *     possible object is
-     *     {@link ItemBuscaNome }
+     *     {@link DescricaoArquivo }
      *     
      */
-    public ItemBuscaNome getArquivo() {
-        return arquivo;
+    public DescricaoArquivo getDescricao() {
+        return descricao;
     }
 
     /**
-     * Define o valor da propriedade arquivo.
+     * Define o valor da propriedade descricao.
      * 
      * @param value
      *     allowed object is
-     *     {@link ItemBuscaNome }
+     *     {@link DescricaoArquivo }
      *     
      */
-    public void setArquivo(ItemBuscaNome value) {
-        this.arquivo = value;
+    public void setDescricao(DescricaoArquivo value) {
+        this.descricao = value;
     }
 
 }

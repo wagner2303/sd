@@ -8,6 +8,8 @@ package br.ufmt.sd.frontendsd;
 import br.ufmt.sd.frontendsd.listeners.ItemDownloadListener;
 import br.ufmt.sd.frontendsd.model.ItemDownload;
 import br.ufmt.sd.frontendsd.model.ItemTabelaArquivos;
+import br.ufmt.sd.serverws.ArrayOfClienteD;
+import br.ufmt.sd.serverws.ArrayOfItemBuscaNome;
 import br.ufmt.sd.serverws.ClienteD;
 import br.ufmt.sd.serverws.DescricaoArquivo;
 import br.ufmt.sd.serverws.ItemBuscaNome;
@@ -47,7 +49,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
         // TODO Pesquisar no servidor a lista de arquivos
         List<ItemBuscaNome> listaArquivos;
         // Searching...
-        listaArquivos = buscaArquivo(txtBusca.getText());
+        listaArquivos = buscaArquivo(txtBusca.getText()).getItemBuscaNome();
 
         ArrayList<ItemTabelaArquivos> arrayList = new ArrayList<>();
         for (ItemBuscaNome itemBuscaNome : listaArquivos) {
@@ -81,7 +83,7 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
             descricaoArquivo.setMd5Arquivo(item.getMd5Arquivo());
             descricaoArquivo.setTamanho(item.getTamanho());
             ArrayList<ClienteD> clienteDs = new ArrayList<>();
-            for (ClienteD clienteD : getClientsD(descricaoArquivo)) {
+            for (ClienteD clienteD : getClientesD(descricaoArquivo).getClienteD()) {
                 clienteDs.add(clienteD);
             }
 
@@ -104,54 +106,66 @@ public class FXMLDocumentController implements Initializable, ItemDownloadListen
         }
     }
 
-    private static java.util.List<br.ufmt.sd.serverws.ItemBuscaNome> buscaArquivo(java.lang.String termo) {
-        List<ItemBuscaNome> itensBuscaNomes = new ArrayList<>();
-
-        for (int i = 1; i < 5; i++) {
-            ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
-            DescricaoArquivo da = new DescricaoArquivo();
-            // gato
-            da.setTamanho(new Long(113427l));
-            da.setMd5Arquivo("5c4de510acea159667f4fdac9ad5838b");
-            itemBuscaNome.setDescricaoArquivo(da);
-            itemBuscaNome.setNome("Paramore " + i);
-
-            itensBuscaNomes.add(itemBuscaNome);
-        }
-        for (int i = 1; i < 5; i++) {
-            ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
-            DescricaoArquivo da = new DescricaoArquivo();
-            da.setTamanho(new Long(2639100l));
-            da.setMd5Arquivo("29a404dbcdb4ea326224ab6acee878de");
-            itemBuscaNome.setDescricaoArquivo(da);
-            itemBuscaNome.setNome("Milque " + i);
-
-            itensBuscaNomes.add(itemBuscaNome);
-        }
-
-        return itensBuscaNomes;
-//        br.ufmt.sd.serverws.Server_Service service = new br.ufmt.sd.serverws.Server_Service();
-//        br.ufmt.sd.serverws.Server port = service.getServerPort();
-//        return port.buscaArquivo(termo);
-    }
-
-    private static java.util.List<br.ufmt.sd.serverws.ClienteD> getClientsD(br.ufmt.sd.serverws.DescricaoArquivo descricao) {
-        List<ClienteD> clienteDs = new ArrayList<>();
-        ClienteD clienteD = new ClienteD();
-        clienteD.setEndereco("192.168.2.9");
-
-        clienteDs.add(clienteD);
-        return clienteDs;
-//        br.ufmt.sd.serverws.Server_Service service = new br.ufmt.sd.serverws.Server_Service();
-//        br.ufmt.sd.serverws.Server port = service.getServerPort();
-//        return port.getClientsD(descricao);
-    }
+//    private static java.util.List<br.ufmt.sd.serverws.ItemBuscaNome> buscaArquivo(java.lang.String termo) {
+//        List<ItemBuscaNome> itensBuscaNomes = new ArrayList<>();
+//
+//        for (int i = 1; i < 5; i++) {
+//            ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
+//            DescricaoArquivo da = new DescricaoArquivo();
+//            // gato
+//            da.setTamanho(new Long(113427l));
+//            da.setMd5Arquivo("5c4de510acea159667f4fdac9ad5838b");
+//            itemBuscaNome.setDescricaoArquivo(da);
+//            itemBuscaNome.setNome("Paramore " + i);
+//
+//            itensBuscaNomes.add(itemBuscaNome);
+//        }
+//        for (int i = 1; i < 5; i++) {
+//            ItemBuscaNome itemBuscaNome = new ItemBuscaNome();
+//            DescricaoArquivo da = new DescricaoArquivo();
+//            da.setTamanho(new Long(2639100l));
+//            da.setMd5Arquivo("29a404dbcdb4ea326224ab6acee878de");
+//            itemBuscaNome.setDescricaoArquivo(da);
+//            itemBuscaNome.setNome("Milque " + i);
+//
+//            itensBuscaNomes.add(itemBuscaNome);
+//        }
+//
+//        return itensBuscaNomes;
+////        br.ufmt.sd.serverws.Server_Service service = new br.ufmt.sd.serverws.Server_Service();
+////        br.ufmt.sd.serverws.Server port = service.getServerPort();
+////        return port.buscaArquivo(termo);
+//    }
+//
+//    private static java.util.List<br.ufmt.sd.serverws.ClienteD> getClientsD(br.ufmt.sd.serverws.DescricaoArquivo descricao) {
+//        List<ClienteD> clienteDs = new ArrayList<>();
+//        ClienteD clienteD = new ClienteD();
+//        clienteD.setEndereco("192.168.2.9");
+//
+//        clienteDs.add(clienteD);
+//        return clienteDs;
+////        br.ufmt.sd.serverws.Server_Service service = new br.ufmt.sd.serverws.Server_Service();
+////        br.ufmt.sd.serverws.Server port = service.getServerPort();
+////        return port.getClientsD(descricao);
+//    }
 
     @Override
     public void updateTable() {
         ObservableList<ItemDownload> observableList = FXCollections.observableArrayList(itensDownload);
         tableListaDownload.getItems().clear();
         tableListaDownload.setItems(observableList);
+    }
+
+    private static ArrayOfItemBuscaNome buscaArquivo(java.lang.String termo) {
+        br.ufmt.sd.serverws.ServerSD service = new br.ufmt.sd.serverws.ServerSD();
+        br.ufmt.sd.serverws.ServerSDSoap port = service.getServerSDSoap();
+        return port.buscaArquivo(termo);
+    }
+
+    private static ArrayOfClienteD getClientesD(br.ufmt.sd.serverws.DescricaoArquivo descricao) {
+        br.ufmt.sd.serverws.ServerSD service = new br.ufmt.sd.serverws.ServerSD();
+        br.ufmt.sd.serverws.ServerSDSoap port = service.getServerSDSoap();
+        return port.getClientesD(descricao);
     }
 
 }
