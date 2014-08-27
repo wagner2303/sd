@@ -15,25 +15,25 @@ public class ServidorSocket implements Runnable{
     @Override
     public void run() {
         try {
-            File arquivoParaEnviar = new File("F:\\zzz\\gato.png");
-            String md5 = GeradorHash.geraHash(arquivoParaEnviar);
-            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
-
-            arquivoParaEnviar = new File("F:\\zzz\\milque.jpg");
-            md5 = GeradorHash.geraHash(arquivoParaEnviar);
-            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
-
-            arquivoParaEnviar = new File("F:\\zzz\\paramore.jpg");
-            md5 = GeradorHash.geraHash(arquivoParaEnviar);
-            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
-            
-            arquivoParaEnviar = new File("F:\\zzz\\artigo.pdf");
-            md5 = GeradorHash.geraHash(arquivoParaEnviar);
-            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
-            
-            arquivoParaEnviar = new File("F:\\zzz\\Usuario.java");
-            md5 = GeradorHash.geraHash(arquivoParaEnviar);
-            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
+//            File arquivoParaEnviar = new File("F:\\zzz\\gato.png");
+//            String md5 = GeradorHash.geraHash(arquivoParaEnviar);
+//            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
+//
+//            arquivoParaEnviar = new File("F:\\zzz\\milque.jpg");
+//            md5 = GeradorHash.geraHash(arquivoParaEnviar);
+//            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
+//
+//            arquivoParaEnviar = new File("F:\\zzz\\paramore.jpg");
+//            md5 = GeradorHash.geraHash(arquivoParaEnviar);
+//            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
+//            
+//            arquivoParaEnviar = new File("F:\\zzz\\artigo.pdf");
+//            md5 = GeradorHash.geraHash(arquivoParaEnviar);
+//            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
+//            
+//            arquivoParaEnviar = new File("F:\\zzz\\Usuario.java");
+//            md5 = GeradorHash.geraHash(arquivoParaEnviar);
+//            TabelaDeArquivos.salvarNovoArquivoNaTabela(md5, arquivoParaEnviar);
 
             ClienteD novoCliente;
 
