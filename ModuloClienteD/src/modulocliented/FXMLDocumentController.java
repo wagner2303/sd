@@ -116,7 +116,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void mnuInformacoesAction(ActionEvent event) {
-        Dialog.showInfoDialog("Criado por Sydy Technology Ltda.");
+        Dialog.showInfoDialog();
     }
 
     @FXML
